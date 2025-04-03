@@ -9,8 +9,9 @@ datos = {
 df = pd.DataFrame(datos)
 #print(pd)
 
+#valor y clave
 for index,row in df.iterrows():
-    print(f"la clave es  : {index} -el valor es : {row['Nombre']}")
+    print(f"la fila es  : {index} -el valor d Nombre es : {row['Nombre']} -el valor d edad es  :{row['Edad']}")
 
 #las columnas
 print(df.columns)
@@ -18,3 +19,14 @@ print(df.columns)
 print(df[["Nombre","Edad"]]) 
 #itrar sobre las columnas  
 print(df[["Nombre","Edad"]].values) 
+df_filtrado = df [["Nombre","Edad"]]
+for i in df_filtrado:
+    if i == "Nombre":
+        print(f"las columnas presentes son {i}")
+
+#iterar sobre los valores d las columnas
+df_filtrado1 = df [["Nombre","Edad"]].values
+
+for i in df_filtrado1:
+    print(f"los valores d las columnas son {i} ")
+  
