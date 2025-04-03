@@ -6,8 +6,15 @@ datos = {
     "País": ["Argentina", "México", "Colombia"]
 }
 
-pd = pd.DataFrame(datos)
+df = pd.DataFrame(datos)
 #print(pd)
 
-for index,row in pd.iterrows():
+for index,row in df.iterrows():
     print(f"la clave es  : {index} -el valor es : {row['Nombre']}")
+
+#las columnas
+print(df.columns)
+#cierta columna 
+print(df[["Nombre","Edad"]]) 
+#itrar sobre las columnas  
+print(df[["Nombre","Edad"]].values) 
