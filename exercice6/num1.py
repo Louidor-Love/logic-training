@@ -14,12 +14,19 @@ datos1 = {
 
 df = pd.DataFrame(datos)
 df1 = pd.DataFrame(datos1)
-print("el primer df es:")
-print(df)
+#print("el primer df es:")
+#print(df)
 
-print("el segundo df es:")
-print(df1)
+#print("el segundo df es:")
+#print(df1)
 
-resultado = pd.merge(df, df1, on='País', how='inner', suffixes=('_df', '_df1'))
-print('el cruce es: ')
-print(resultado)
+#resultado = pd.merge(df, df1, on='País', how='inner', suffixes=('_df', '_df1'))
+#print('el cruce es: ')
+#print(resultado)
+
+for i in range(len(df)):
+    nombres = df.loc[i,"Nombre"]
+    edad = df.loc[i,"Edad"]
+
+    print("los nombres presentes son:", nombres)
+    print("las edades presentes son:", edad)
