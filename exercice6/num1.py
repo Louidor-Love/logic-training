@@ -25,8 +25,9 @@ df1 = pd.DataFrame(datos1)
 #print(resultado)
 
 for i in range(len(df)):
-    nombres = df.loc[i,"Nombre"]
+    primer_nombre = df.at[0, "Nombre"] 
+    nombres = df.loc[i,primer_nombre]
     edad = df.loc[i,"Edad"]
 
-    print("los nombres presentes son:", nombres)
-    print("las edades presentes son:", edad)
+    print("el primer nombre presentes son:", nombres)
+    print("la primera edad presentes son:", edad)
