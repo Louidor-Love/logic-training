@@ -8,6 +8,8 @@ frutas = {
     "verdes": ["pera", "uva", "kiwi"]
 }
 
+print(frutas["rojas"])
+
 for clave,valor in frutas.items():
     if clave == "rojas":
         print(f"Número de frutas rojas:, {len(valor)}")
