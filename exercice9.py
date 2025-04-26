@@ -19,3 +19,7 @@ def crear_baraja_d_52(palos,valores):
 cartas = crear_baraja_d_52(palos,valores)
 print(cartas)
 
+for i in range(10):
+    resultados = (i * 2)
+print(resultados)    
+
