@@ -1,5 +1,6 @@
 from datetime import datetime
 
-hoy = datetime.now()
-tomorrow = datetime.today()
-print(f"hoy es {hoy} y mañanasera {tomorrow}")
+hoy1 = datetime.now()
+hoy = hoy1.strftime("%Y-%m-%d")
+tomorrow = hoy1.strftime("%H:%M:%S")
+print(f"hoy es {hoy} y la hora exacta es: {tomorrow}")
