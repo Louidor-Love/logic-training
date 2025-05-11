@@ -3,36 +3,39 @@ from fpdf import FPDF
 # Crear clase personalizada para PDF
 class PDF(FPDF):
     def header(self):
-        self.set_font("Arial", "B", 12)
+        self.set_font("DejaVu", "B", 12)
         self.cell(0, 10, "Plan de Estudio Salesforce Developer (Junior)", ln=True, align="C")
         self.ln(5)
 
     def chapter_title(self, title):
-        self.set_font("Arial", "B", 11)
+        self.set_font("DejaVu", "B", 11)
         self.set_text_color(0)
         self.cell(0, 10, title, ln=True)
         self.ln(2)
 
     def chapter_body(self, body):
-        self.set_font("Arial", "", 10)
+        self.set_font("DejaVu", "", 10)
         self.multi_cell(0, 8, body)
         self.ln()
 
 pdf = PDF()
 pdf.add_page()
 
+# Agregar fuente Unicode
+pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
+pdf.add_font("DejaVu", "B", "DejaVuSans.ttf", uni=True)
+
 # Documentación oficial
-official_docs = """ Documentación Oficial:
+official_docs = """📘 Documentación Oficial:
 - Apex: https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/
 - LWC: https://developer.salesforce.com/docs/component-library/documentation/en/lwc
 - Visualforce: https://developer.salesforce.com/docs/atlas.en-us.pages.meta/pages/
 - SOQL: https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/
 
 """
-
 pdf.chapter_body(official_docs)
 
-# Semana 1-2
+# Contenidos por semana
 pdf.chapter_title("Semana 1-2: Fundamentos de Salesforce & Apex")
 semana1 = """- Arquitectura de Salesforce (multi-tenant, MVC)
 - Introducción a Apex:
@@ -46,7 +49,6 @@ semana1 = """- Arquitectura de Salesforce (multi-tenant, MVC)
 📘 Recurso: https://trailhead.salesforce.com/content/learn/modules/apex_database"""
 pdf.chapter_body(semana1)
 
-# Semana 3-4
 pdf.chapter_title("Semana 3-4: Apex Orientado a Objetos y Triggers")
 semana2 = """- Programación orientada a objetos (clases, herencia, interfaces)
 - DML – insert, update, delete, upsert
@@ -57,7 +59,6 @@ semana2 = """- Programación orientada a objetos (clases, herencia, interfaces)
 📘 Recurso: https://trailhead.salesforce.com/content/learn/modules/apex_triggers"""
 pdf.chapter_body(semana2)
 
-# Semana 5-6
 pdf.chapter_title("Semana 5-6: Lightning Web Components (LWC)")
 semana3 = """- LWC vs Aura vs Visualforce
 - Estructura de un componente (.html, .js, .meta.xml)
@@ -68,7 +69,6 @@ semana3 = """- LWC vs Aura vs Visualforce
 📘 Recurso: https://trailhead.salesforce.com/content/learn/modules/lwc-basics"""
 pdf.chapter_body(semana3)
 
-# Semana 7-8
 pdf.chapter_title("Semana 7-8: Formularios, Eventos y Navegación en LWC")
 semana4 = """- Formularios con lightning-input, lightning-record-edit-form
 - Validaciones en LWC
@@ -78,7 +78,6 @@ semana4 = """- Formularios con lightning-input, lightning-record-edit-form
 📘 Recurso: https://trailhead.salesforce.com/content/learn/projects/quick-start-lightning-web-components"""
 pdf.chapter_body(semana4)
 
-# Semana 9
 pdf.chapter_title("Semana 9: Visualforce")
 semana5 = """- Qué es Visualforce y cuándo se usa
 - Sintaxis de páginas VF (<apex:page>, <apex:form>, <apex:repeat>)
@@ -88,7 +87,6 @@ semana5 = """- Qué es Visualforce y cuándo se usa
 📘 Recurso: https://trailhead.salesforce.com/content/learn/modules/visualforce_fundamentals"""
 pdf.chapter_body(semana5)
 
-# Semana 10-11
 pdf.chapter_title("Semana 10-11: Tests y Buenas Prácticas")
 semana6 = """- Unit Tests en Apex (@isTest)
 - Bulkification y límites de gobierno
@@ -98,7 +96,6 @@ semana6 = """- Unit Tests en Apex (@isTest)
 📘 Recurso: https://trailhead.salesforce.com/content/learn/modules/apex_testing"""
 pdf.chapter_body(semana6)
 
-# Semana 12
 pdf.chapter_title("Semana 12: Proyecto Integrador")
 semana7 = """- Crear una aplicación con:
   - Backend en Apex
@@ -108,8 +105,8 @@ semana7 = """- Crear una aplicación con:
 pdf.chapter_body(semana7)
 
 # Guardar PDF
-output_path = "/mnt/data/plan_estudio_salesforce_junior.pdf"
+output_path = "plan_estudio_salesforce_junior.pdf"
 pdf.output(output_path)
 
-output_path
+print(f"PDF guardado en: {output_path}")
 
