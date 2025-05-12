@@ -1,6 +1,5 @@
 from fpdf import FPDF
 
-# Crear clase personalizada para PDF
 class PDF(FPDF):
     def header(self):
         self.set_font("DejaVu", "B", 12)
@@ -19,11 +18,12 @@ class PDF(FPDF):
         self.ln()
 
 pdf = PDF()
-pdf.add_page()
 
-# Agregar fuente Unicode
+# Agregar fuente ANTES de usarla
 pdf.add_font("DejaVu", "", "DejaVuSans.ttf", uni=True)
 pdf.add_font("DejaVu", "B", "DejaVuSans.ttf", uni=True)
+
+pdf.add_page()
 
 # Documentación oficial
 official_docs = """📘 Documentación Oficial:
