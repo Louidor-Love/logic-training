@@ -11,3 +11,5 @@ print(x.headers)
 
 #funciones disponibles
 print(dir(x))
+
+print(x.status_code)
