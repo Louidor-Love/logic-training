@@ -6,7 +6,18 @@ datos = {
     "País": ["Argentina", "México", "Colombia"]
 }
 
+datos1 = {
+    "Nombre": ["An,a", "Car,los", "Sofía"],
+    "Edad": [25, 3, 22],
+    "País": ["Argentina", "México", "Colombia"]
+}
+
 df = pd.DataFrame(datos)
+df1 = pd.DataFrame(datos1)
+
+#merge
+df_merge = pd.merge(df,df1, on="Edad")
+print(df_merge)
 #print(pd)
 
 df[["Nombre1", "Nombre2"]] = df["Nombre"].str.split(",", expand=True)
