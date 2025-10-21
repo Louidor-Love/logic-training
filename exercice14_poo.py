@@ -9,6 +9,9 @@ class Usuario:
         self.palabra_input = palabra_input
 
 
-usuario = Usuario()  
-print("Usted dijo:", usuario.palabra_input)
+usuario = Usuario(palabra_input)
+
+class chatbot:
+    def __init__(self,usuario):
+        self.usuario = usuario
 
