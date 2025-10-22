@@ -19,8 +19,6 @@ class Estudiante(Persona):
         super().__init__(nombre, edad)
         self.grado = grado
 
-    def imprimir_persona(self):
-        return super().imprimir_persona()   
 
     def imprimir_estudiante(self):
         print( f"grado :{self.grado}" )    
