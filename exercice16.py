@@ -23,5 +23,19 @@ def array_to_sort_asc(a):
 #array_cop = array_to_sort_asc(array) 
 #print(f"the new array is : {array_cop}")
 
-# 2-Given an integer array numbers sorted in non-decreasing order (ascending order), 
-# return an array of the squares of each number sorted in non-decreasing order.
+# 2-Given a sorted integer array nums, remove the duplicates in-place such that each element appears only, 
+# once and return the new length.
+# You must modify the array in place without using extra space.
+
+array = [-3,-3,-2,-2,6,8,10]
+def no_duplicate(b):
+    new_array = []
+    for i in b :
+        if i not in new_array:
+            new_array.append(i)  
+    
+    return new_array
+new_array =  no_duplicate(array) 
+print(f" the array clear: {new_array}")
+longitud = len(new_array)
+print(f" his length is : {longitud}")
