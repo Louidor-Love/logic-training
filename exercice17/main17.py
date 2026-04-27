@@ -2,18 +2,13 @@
 # EJERCICIO 17: Mini OAuth Server (100% POO)
 # ============================================
 
-class OAuthConfig:
-    """
-    Configuración centralizada del servidor OAuth
-    """
-    def __init__(self):
-        # TODO: Implementar atributos
-        # - client_id
-        # - client_secret
-        # - token_expiration (segundos)
-        # - jwt_secret (para firmar tokens)
-        # - encryption_key (para cifrar datos)
-        print("TODO: OAuthConfig - Implementar configuración")
+"""
+
+authserver.py      → entrada (endpoints)
+oauthhandler.py    → lógica principal
+oauthconfig.py     → configuración
+authservice.py     → lógica auxiliar (usuarios, passwords, etc.)
+"""
 
 
 class EncryptionService:
