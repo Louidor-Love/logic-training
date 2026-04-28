@@ -1,6 +1,6 @@
 """
-    POST /token
-    GET /authorize
+    POST /token -> devuelve token (usando el code)
+    GET /authorize -> devuelve code de authorización
     GET /protected
     Maneja:
     rutas
@@ -27,7 +27,7 @@ class OAuthServer:
         Simula una petición al endpoint /token
         """
 
-        # 🔹 1. Extraer datos del request
+        # 1. Extraer datos del request
         body = request.get("body", {})
         headers = request.get("headers", {})
         query = request.get("query", {})
@@ -54,9 +54,37 @@ class OAuthServer:
 
         #  4. Construir respuesta
         return token_response
+    
 
-    def authorize(self, requests):
-        pass
+    def authorize(self, request: dict):
+        """ Maneja la autorización (GET /authorize) 
+            validar al cliente + iniciar el flujo de autorización
+        """
+        body = request.get("body", {})
+        headers = request.get("headers", {})
+        query = request.get("query", {})
+
+        # quién está pidiendo autorización
+        client_id = body.get("client_id") or request.query.get("client_id")
+        # dónde redirigir después de autorizar
+        redirect_uri = body.get("redirect_uri") or request.query.get("redirect_uri")
+        # qué tipo de respuesta se espera (code, token, etc.)
+        response_type = body.get("response_type") or request.query.get("response_type")
+
+        if not client_id or not redirect_uri or not response_type:
+            return{
+                "error": "invalid_request",
+                "message": "client_id, redirect_uri y response_type son requeridos"
+            }
+        
+        try:
+            auth_response = self.handler.authorize(request)
+        except Exception as e:
+            return{
+                "error": "invalid_client", 
+                "message": str(e)
+            }    
+        return auth_response
 
     def protected(self, requests):
         pass
