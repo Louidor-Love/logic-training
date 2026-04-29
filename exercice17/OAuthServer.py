@@ -44,7 +44,7 @@ class OAuthServer:
 
         # 3. Delegar al handler
         try:
-            token_response = self.handler.token(request)
+            token_response = self.handler.token(client_id, client_secret)
 
         except Exception as e:
             return {
@@ -53,8 +53,12 @@ class OAuthServer:
             }
 
         #  4. Construir respuesta
-        return token_response
-    
+        response = {
+            "access_token": token_response,
+            "token_type": "bearer",
+        }
+
+        return response
 
     def authorize(self, request: dict):
         """ Maneja la autorización (GET /authorize) 
@@ -65,11 +69,15 @@ class OAuthServer:
         query = request.get("query", {})
 
         # quién está pidiendo autorización
-        client_id = body.get("client_id") or request.query.get("client_id")
+        client_id = body.get("client_id") or query.get("client_id")
         # dónde redirigir después de autorizar
-        redirect_uri = body.get("redirect_uri") or request.query.get("redirect_uri")
+        redirect_uri = body.get("redirect_uri") or query.get("redirect_uri")
         # qué tipo de respuesta se espera (code, token, etc.)
-        response_type = body.get("response_type") or request.query.get("response_type")
+        response_type = body.get("response_type") or query.get("response_type")
+
+        # solo acepto code como response_type
+        if response_type != "code":
+            raise ValueError("Only 'code' is accepted as response_type")
 
         if not client_id or not redirect_uri or not response_type:
             return{
@@ -78,7 +86,7 @@ class OAuthServer:
             }
         
         try:
-            auth_response = self.handler.authorize(request)
+            auth_response = self.handler.authorize(client_id, redirect_uri, response_type)
         except Exception as e:
             return{
                 "error": "invalid_client", 
