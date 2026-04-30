@@ -15,7 +15,7 @@ class OAuthHandler:
      
         print("TODO: OAuthHandler - Guardar servicios y config")
     
-    def authorize(self, request):
+    def authorize(self):
         # TODO: Endpoint /authorize
         # 1. Parsear request con RequestParser
         # 2. Extraer client_id de query_params
@@ -26,7 +26,7 @@ class OAuthHandler:
         print("TODO: OAuthHandler.authorize - Implementar flujo authorize")
         return None
     
-    def token(self, request):
+    def token(self, client_id:str , client_secret:str):
         # TODO: Endpoint /token
         # 1. Parsear request con RequestParser
         # 2. Extraer client_id, client_secret, code del body
@@ -35,10 +35,19 @@ class OAuthHandler:
         # 5. Generar JWT con jwt_service
         # 6. Limpiar authorization_code usado
         # Retornar: {"access_token": "...", "token_type": "Bearer"}
-        print("TODO: OAuthHandler.token - Implementar flujo token")
+        """
+           recibir credenciales → validar → generar token → devolverlo
+        """
+
+        if client_id != self.config.client_id:
+            raise ValueError("client_id inválido")
+        
+        if client_secret != self.config.client_secret:
+            raise ValueError("client_secret inválido")
+        
         return None
     
-    def validate_token(self, request):
+    def validate_token(self ):
         # TODO: Endpoint /protected
         # 1. Parsear request con RequestParser
         # 2. Extraer token del header "Authorization: Bearer <token>"

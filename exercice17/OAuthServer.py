@@ -59,6 +59,7 @@ class OAuthServer:
         }
 
         return response
+    
 
     def authorize(self, request: dict):
         """ Maneja la autorización (GET /authorize) 
@@ -75,15 +76,20 @@ class OAuthServer:
         # qué tipo de respuesta se espera (code, token, etc.)
         response_type = body.get("response_type") or query.get("response_type")
 
-        # solo acepto code como response_type
-        if response_type != "code":
-            raise ValueError("Only 'code' is accepted as response_type")
 
+        # validar que existen los parámetros necesarios
         if not client_id or not redirect_uri or not response_type:
             return{
                 "error": "invalid_request",
                 "message": "client_id, redirect_uri y response_type son requeridos"
             }
+        
+        # solo acepto code como response_type
+        if response_type != "code":
+            return {
+                "error": "unsupported_response_type",
+                "message": "Only 'code' is accepted as response_type"           
+           }
         
         try:
             auth_response = self.handler.authorize(client_id, redirect_uri, response_type)
@@ -91,10 +97,48 @@ class OAuthServer:
             return{
                 "error": "invalid_client", 
                 "message": str(e)
-            }    
-        return auth_response
+            } 
+           
+        code = {
+            "code": auth_response
+        }
 
-    def protected(self, requests):
-        pass
+        return code
+    
+
+    def protected(self, request: dict):
+        """ Maneja el endpoint protegido (GET /protected)
+            validar token y devolver recurso protegido
+        """
+        headers = request.get("headers", {})
+
+        auth_header = headers.get("Authorization")
+
+        if not auth_header or not auth_header.startswith("Bearer "):
+            return {
+                "error" : "invalid_header",
+                "message": "Authorization header debe existir yempezar con 'Bearer '"
+            }
+        
+        token = headers.get("Authorization", "").replace("Bearer ", "")
+        if not token:
+            return {
+                "error" : "missing_token",
+                "message": "token requerido"
+            }
+
+        try:
+            protected_data = self.handler.protected(token)
+        except Exception as e:
+            return {
+                "error": "invalid_token",
+                "message": str(e)
+            }    
+        
+        protected_data = {
+            "data": protected_data
+        }
+
+        return protected_data
 
 
