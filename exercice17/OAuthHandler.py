@@ -24,9 +24,10 @@ class OAuthHandler:
         # 5. Guardar authorization_code
         # Retornar: {"authorization_code": "..."}
         print("TODO: OAuthHandler.authorize - Implementar flujo authorize")
+        #todavia no pongo logica real, solo un placeholder para probar el endpoint
         return None
     
-    def token(self, client_id:str , client_secret:str):
+    def token(self, client_id:str , client_secret:str, code:str):
         # TODO: Endpoint /token
         # 1. Parsear request con RequestParser
         # 2. Extraer client_id, client_secret, code del body
@@ -44,8 +45,35 @@ class OAuthHandler:
         
         if client_secret != self.config.client_secret:
             raise ValueError("client_secret inválido")
+
+        if not hasattr(self, "authorization_codes"):
+            raise ValueError("No hay códigos almacenados")   
         
-        return None
+        #recibir code
+        code = self.authorize(client_id,client_secret)
+        if not code or code != code:
+            raise ValueError("authorization_code inválido o expirado")
+        
+        stored_code = self.authorization_codes.get(code)
+        if not stored_code:
+            raise ValueError("authorization_code inválido o expirado")
+        
+        #. Marcar code como usado (one-time use)
+        stored_code["used"] = True
+        # crear payload
+        payload = {
+            "client_id": client_id,
+            "exp": 9999999999,  # placeholder de expiración
+        }
+
+        token = self.jwt_service.generate_token(payload)
+        if not token:
+            raise ValueError("Error al generar token")
+
+
+        print(f"token generado exitosamente: {token}")
+        
+        return {"access_token": token, "token_type": "Bearer"}
     
     def validate_token(self ):
         # TODO: Endpoint /protected
